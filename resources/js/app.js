@@ -4,9 +4,39 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
+window.Vue = require("vue");
+
+import VueRouter from "vue-router";
+import { Form, HasError, AlertError } from "vform";
+
+window.Form = Form;
+
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
+
+Vue.use(VueRouter);
+
+let routes = [
+    {
+        path: "/Dashboard",
+        component: require("./components/Dashboard.vue").default
+    },
+    {
+        path: "/Profiler",
+        component: require("./components/Profiler.vue").default
+    },
+    {
+        path: "/Users",
+        component: require("./components/Users.vue").default
+    }
+];
+
+const router = new VueRouter({
+    mode: "history",
+    routes // short for `routes: routes`
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,7 +49,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component("Dashboard", require("./components/Dashboard.vue"));
+Vue.component("Profiler", require("./components/Profiler.vue"));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,5 +59,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app',
-});
+    el: "#app",
+    router
+}).$mount("#app");
